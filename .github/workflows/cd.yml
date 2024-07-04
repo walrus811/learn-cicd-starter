@@ -34,3 +34,6 @@ jobs:
 
       - name: push
         run: gcloud builds submit --tag asia-northeast3-docker.pkg.dev/graphite-disk-428402-m5/notely-ar-repo/notely:latest .
+
+      - name: Deploy to Cloud Run
+        run: gcloud run deploy notely --image asia-northeast3-docker.pkg.dev/graphite-disk-428402-m5/notely-ar-repo/notely:latest --region asia-northeast3 --allow-unauthenticated --project graphite-disk-428402-m5 --max-instances=4
