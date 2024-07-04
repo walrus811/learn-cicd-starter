@@ -18,5 +18,19 @@ jobs:
         with:
           go-version: "1.22"
 
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
+
       - name: build
-        run:  ./scripts/buildprod.sh
+        run: ./scripts/buildprod.sh
+
+      - name: push
+        run: gcloud builds submit --tag asia-northeast3-docker.pkg.dev/graphite-disk-428402-m5/notely-ar-repo/notely:latest .
