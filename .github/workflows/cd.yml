@@ -9,6 +9,9 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -31,6 +34,9 @@ jobs:
 
       - name: build
         run: ./scripts/buildprod.sh
+
+      - name: migration
+        run: ./scripts/migrateup.sh
 
       - name: push
         run: gcloud builds submit --tag asia-northeast3-docker.pkg.dev/graphite-disk-428402-m5/notely-ar-repo/notely:latest .
